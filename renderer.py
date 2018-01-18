@@ -21,10 +21,11 @@ def warpImg(img, t_height, t_width, prj, idx):
     new_img = np.zeros((t_height*t_width, 3))
     ## In case we have some points
     if prj.size != 0:
-        pixels = cv2.remap(img, np.squeeze( np.asarray( prj[0,:] ) ).astype('float32'),\
-         np.squeeze( np.asarray( prj[1,:] ) ).astype('float32'),  cv2.INTER_CUBIC)
-        pixels = pixels[:,0,:]
-        new_img[idx,:] = pixels
+	pixels = cv2.remap(img, np.squeeze( np.asarray( prj[0,:] ) ).astype('float32').reshape(t_height, t_width),\
+			   np.squeeze( np.asarray( prj[1,:] ) ).astype('float32').reshape(t_height, t_width), cv2.INTER_CUBIC)
+        pixels = pixels.reshape(pixels.shape[0]*pixels.shape[1], pixels.shape[2])
+	# pixels = pixels[:,0,:]
+	new_img[idx,:] = pixels
     else:
         print '> Projected points empty'
     new_img = new_img.reshape(( t_height, t_width, 3), order='F')
@@ -162,7 +163,7 @@ def mysoftSymmetry(img, frontal_raw, ref_U, in_proj, \
         frontal_sym = frontal_sym.astype('uint8')
         weights = synth_frontal_acc[:,:,0]
     else: # both sides are occluded pretty much to the same extent -- do not use symmetry
-        print '> skipping sym'
+        print('> skipping sym')
         frontal_sym = frontal_raw
     return frontal_sym, weights
 
