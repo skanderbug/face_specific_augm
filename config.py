@@ -1,4 +1,4 @@
-from ConfigParser import ConfigParser
+from ConfigParser import configparser
 import os
 
 this_path = os.path.dirname(os.path.abspath(__file__))
