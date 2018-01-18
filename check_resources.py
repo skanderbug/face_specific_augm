@@ -7,9 +7,9 @@ def download_file(url, dest):
     file_name = url.split('/')[-1]
     u = urllib2.urlopen(url)
     f = open(dest+"/"+file_name, 'wb')
-    meta = u.info()
-    file_size = int(meta.getheaders("Content-Length")[0])
-    print "Downloading: %s Size: %s (~%4.2fMB)" % (file_name, file_size, (file_size/1024./1024.))
+    #meta = u.info()
+    file_size = int(u.getheaders("Content-Length")[0])
+    print("Downloading: %s Size: %s (~%4.2fMB)" % (file_name, file_size, (file_size/1024./1024.)))
 
     file_size_dl = 0
     block_sz = 8192
@@ -24,7 +24,7 @@ def download_file(url, dest):
             status = status + chr(8)*(len(status)+1)
             print status
     f.close()
-    print "Download complete!"
+    print("Download complete!")
 
 def extract_bz2(fpath):
     print "Extracting..."
@@ -33,7 +33,7 @@ def extract_bz2(fpath):
     data = file.read()
     new_file.write(data)
     new_file.close()
-    print "Done!"
+    print("Done!")
 
 
 def check_dlib_landmark_weights():
